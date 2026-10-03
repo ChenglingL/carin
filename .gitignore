@@ -1,0 +1,15 @@
+node_modules/
+
+# Downloaded repos, zips and the built index (see CLAUDE.md, "Secrets and data")
+data/
+
+# Secrets
+.env
+.env.*
+!.env.example
+
+# Personal Claude Code settings
+.claude/settings.local.json
+
+.DS_Store
+*.log

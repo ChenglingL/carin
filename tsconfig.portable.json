@@ -1,0 +1,11 @@
+{
+  // The code that must run unchanged in Chrome and Node.
+  // No Node types and no DOM lib: using fs, process, document or chrome here
+  // fails `npm run typecheck`. Outside-world access comes in through interfaces.
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "types": []
+  },
+  "include": ["src/core", "src/index"],
+  "exclude": ["**/*.test.ts"]
+}
