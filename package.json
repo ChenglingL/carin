@@ -10,12 +10,16 @@
   },
   "scripts": {
     "index": "node scripts/build-index.ts",
+    "ask": "node scripts/ask.ts",
+    "evals": "node evals/run.ts",
+    "evals:propose": "node evals/propose.ts",
     "test": "vitest run",
     "typecheck": "tsc --noEmit && tsc --noEmit -p tsconfig.portable.json"
   },
   "dependencies": {
     "fflate": "^0.8.3",
     "github-slugger": "^2.0.0",
+    "minisearch": "^7.2.0",
     "yaml": "^2.9.1"
   },
   "devDependencies": {

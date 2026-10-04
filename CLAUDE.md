@@ -7,7 +7,9 @@ The full plan is in `docs/PLAN.md`. Read the relevant section before starting a 
 
 ## Current milestone
 
-**M1: agent core, under Node.** Update this line when a milestone's gate passes. (M0 passed on 2026-10-02.)
+**M2: extension shell.** Update this line when a milestone's gate passes. (M0 passed on 2026-10-02.
+M1's pipeline works end to end but its gate isn't measured yet: Gemini's free tier allows ~20 requests/day per model.
+The owner asked on 2026-10-03 to build through to a demo first and tune rules and evals afterwards.)
 
 - M0 Repo index (Node). Gate: doc map is about 15K tokens; the KV Cache entry lists the docs a text search finds.
 - M1 Agent core (Node). Gate: every citation is real; "Where it's used" finds at least 80% of expected docs.
@@ -62,7 +64,10 @@ Keep this list current. Node 24+ runs the `.ts` scripts directly (type stripping
 - `npm test` runs Vitest. The M0 gate tests (`scripts/index-gate.test.ts`) skip until the index is built.
 - `npm run typecheck` runs `tsc --noEmit` on the whole project, then on `tsconfig.portable.json`,
   which fails if `src/core/` or `src/index/` use Node or browser APIs.
-- `npm run evals` runs the eval cases and prints a report (from M1)
+- `npm run ask -- --case explain-kv-quant` (or `--doc … --select … --action explain|example|where-used|ask`) asks one question.
+- `npm run evals` runs the eval cases and prints a report; `--case <id>`, `--model gemini|sonnet|haiku|<id>`, `--save-baseline`.
+  Gemini's free tier: ~5 requests/min and ~20/day per model; the client waits, then falls back across free models.
+- `npm run evals:propose` refreshes each case's `proposed:` docs from a text search.
 - `npm run dev` / `npm run build` build the extension with WXT (from M2)
 
 ## Conventions
@@ -75,15 +80,18 @@ Keep this list current. Node 24+ runs the `.ts` scripts directly (type stripping
 
 ## Model
 
-- Default model `claude-sonnet-5-5`; cheaper option `claude-haiku-4-5-20251001`.
+- Default model `gemini-3.7-flash` on Google's free tier (decided 2026-10-03: no API cost during development; 3.8 was often overloaded).
+  Claude stays supported: `claude-sonnet-5-5`, cheaper `claude-haiku-4-5-20251001` (`--model sonnet | haiku`).
+- Every provider sits behind `ModelClient`. `src/core` keeps the Messages API shapes; `src/core/gemini.ts` translates.
+- Gemini's free tier may use prompts to improve Google's products. Fine for a public repo; tell users before shipping free-tier keys.
 - Put the stable part first (answer rules + doc map) so prompt caching can reuse it.
   The reader's position, selection and memory slice come after.
 
 ## Secrets and data
 
-- Never commit API keys. Local runs read `ANTHROPIC_API_KEY` from `.env`, which is gitignored.
+- Never commit API keys. Local runs read `GEMINI_API_KEY` (and `ANTHROPIC_API_KEY` for Claude) from `.env`, which is gitignored.
 - In the extension the user's key lives in `chrome.storage.session` by default.
-  Browser calls to the Claude API need the `anthropic-dangerous-direct-browser-access: true` header.
+  Browser calls to the Claude API need the `anthropic-dangerous-direct-browser-access: true` header (Gemini needs none).
 - Don't commit downloaded repos or `data/index.json` (both gitignored).
 - llm-master is MIT (© 2026 程序员Carl). Excerpts copied into `evals/fixtures/` keep its LICENSE file beside them.
 

@@ -26,7 +26,7 @@ v0 is narrow on purpose: one kind of source, one browser, one model provider.
 | Sources | Public GitHub repos of Markdown docs, read on github.com; llm-master first | Code-heavy repos; PDFs, papers and books |
 | Actions | Explain here, Example, Where it's used, Ask | More lenses once these prove useful |
 | Browser | Chrome or another Chromium browser, in the side panel | Firefox |
-| Model | Claude API with your own key | Local models through Ollama |
+| Model | Gemini API free tier by default, Claude API as an option; your own key either way | Local models through Ollama |
 | Memory | In the browser, with export and import | Plain files through a local server; sync across devices |
 | Other tools | None | MCP, so Claude Code can use the same memory |
 | Sharing | Public repo, loaded unpacked | Chrome Web Store listing |
@@ -72,7 +72,7 @@ Your selection travels down the left column. The agent core reads and writes mem
 | Storage | IndexedDB through Dexie; chrome.storage for settings and the key | Simple typed tables |
 | Repo download | GitHub zip, unzipped with fflate | One request instead of one per file |
 | Search | MiniSearch, with Intl.Segmenter for Chinese | Small keyword search, no server |
-| Model calls | fetch to the Claude Messages API, streamed | No SDK needed, and easy to read |
+| Model calls | fetch, behind one ModelClient interface: Gemini by default, Claude Messages API as an option | No SDK needed, easy to read, and the provider is one adapter |
 | Evals | Vitest under Node | Runs the same agent core |
 
 ## Repo index
@@ -211,7 +211,7 @@ Each has a proposed default, so building can start now.
 | Answer language | English, Chinese, or match the question | Match the question, keeping the repo's Chinese terms |
 | When a doc counts as done | A Mark done button only, or also scrolling to the end | The button, suggested when you reach the end |
 | Remembering the API key | This browser session only, or across restarts | This session only, with a toggle |
-| Model | Claude Sonnet for quality, or Claude Haiku for cost | Sonnet, with Haiku as a setting |
+| Model | Gemini Flash free tier, or Claude Sonnet / Haiku | Gemini 3.7 Flash during development (changed Oct 3, 2026: no API cost; 3.8 was often overloaded); Claude as a setting |
 | Typed questions | Always the agent, or one call unless tools are needed | The agent, which may answer without tools |
 | Reading path | The repo's roadmap order, or your own | Roadmap order, editable on the Memory page |
 

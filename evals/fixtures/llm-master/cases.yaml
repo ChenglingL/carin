@@ -1,0 +1,334 @@
+# M1 eval cases for llm-master (MIT, © 2026 程序员Carl; LICENSE beside this file).
+# Selections are quoted from the repo at commit 5991623.
+#
+# Fields
+#   action      explain | example | where-used | ask
+#   doc/anchor  where the reader is; the selection must appear in that section
+#   selection   the selected text ("" when only a question is typed)
+#   question    the typed question (ask)
+#   concept     the term to look up, when it differs from the selection
+#   memory      readUpTo: N (reading-path docs 1..N are done), read: [paths],
+#               known: [terms] (got it), unclear: [terms], language: match | en | zh
+#   proposed    docs a text search suggests; refresh with `npm run evals:propose`
+#   expected    docs a good answer cites, checked by hand; recall is scored against this
+#               TODO(human): the expected lists are a provisional first pass (proposed docs minus index
+#               pages and news, capped at 6/3/2 per action). Review each: keep what a good answer must cite.
+#   mustNotMention  phrases that would mean a tangent
+
+# Where it's used: one per starting concept (docs/PLAN.md § Evals)
+
+- id: wu-kv-cache
+  action: where-used
+  doc: docs/llm/app/model_quantization.md
+  anchor: 项目里怎么选择量化方案
+  selection: KV Cache
+  memory: { readUpTo: 52 }
+  proposed:
+    - docs/llm/app/kv_cache_paged_attention.md
+    - docs/llm/app/stress_testing.md
+    - docs/llm/intro/how_llm_trained.md
+    - docs/llm/news/deepseek-v4.md
+    - docs/llm/news/glm-5-3-flash.md
+    - README.md
+    - docs/interview/llm/20260506bytedance.md
+    - docs/llm/README.md
+    - docs/llm/intro/llm_pricing.md
+    - docs/interview/llm/rag_interview.md
+    - docs/llm/app/token_cost_latency.md
+    - docs/llm/intro/application_development.md
+    - docs/llm/news/hunyuan-hy4-preview.md
+  expected:
+    - docs/llm/app/kv_cache_paged_attention.md
+    - docs/llm/app/stress_testing.md
+    - docs/llm/intro/how_llm_trained.md
+    - docs/llm/intro/llm_pricing.md
+    - docs/interview/llm/rag_interview.md
+    - docs/llm/app/token_cost_latency.md
+  mustNotMention: []
+
+- id: wu-pagedattention
+  action: where-used
+  doc: docs/llm/app/kv_cache_paged_attention.md
+  anchor: 为什么传统连续分配会浪费大量显存
+  selection: PagedAttention
+  memory: { readUpTo: 51 }
+  proposed:
+    - README.md
+    - docs/llm/README.md
+    - docs/llm/app/model_quantization.md
+  expected:
+    - docs/llm/app/model_quantization.md
+  mustNotMention: []
+
+- id: wu-prefill
+  action: where-used
+  doc: docs/llm/app/stress_testing.md
+  anchor: ttfttpot和itl到底在量什么
+  selection: Prefill
+  memory: { readUpTo: 53 }
+  proposed:
+    - docs/llm/app/kv_cache_paged_attention.md
+    - docs/llm/app/token_cost_latency.md
+    - docs/llm/app/model_quantization.md
+  expected:
+    - docs/llm/app/kv_cache_paged_attention.md
+    - docs/llm/app/token_cost_latency.md
+    - docs/llm/app/model_quantization.md
+  mustNotMention: []
+
+- id: wu-rerank
+  action: where-used
+  doc: docs/llm/app/rag_optimization.md
+  anchor: 四精排优化rerank
+  selection: Rerank
+  memory: { readUpTo: 19 }
+  proposed:
+    - docs/interview/llm/rag_interview.md
+    - docs/llm/app/embedding.md
+    - docs/llm/app/rag_interview_framework.md
+    - docs/llm/app/rag_evaluation.md
+    - docs/llm/app/chain_of_rag.md
+    - docs/llm/app/long_document_code_retrieval.md
+    - docs/llm/app/rag_problems.md
+    - docs/interview/llm/rag_hardest_parts_interview.md
+    - docs/llm/intro/agentic_rag.md
+    - docs/interview/llm/graphrag_interview.md
+    - README.md
+    - docs/interview/llm/agent_hallucination_control_interview.md
+    - docs/interview/llm/20260506bytedance.md
+    - docs/interview/llm/README.md
+    - docs/interview/llm/bytedance_fanqie_agent_intern_interview.md
+    - docs/interview/llm/claude_code_grep_rag_interview.md
+    - docs/interview/llm/agent_interview.md
+    - docs/llm/app/how_to_chunking.md
+    - docs/llm/app/token_cost_latency.md
+    - docs/llm/intro/model_distillation.md
+  expected:
+    - docs/interview/llm/rag_interview.md
+    - docs/llm/app/embedding.md
+    - docs/llm/app/rag_interview_framework.md
+    - docs/llm/app/rag_evaluation.md
+    - docs/llm/app/chain_of_rag.md
+    - docs/llm/app/long_document_code_retrieval.md
+  mustNotMention: []
+
+- id: wu-function-calling
+  action: where-used
+  doc: docs/llm/app/mcp_protocol.md
+  anchor: 二mcp-不是-function-calling-的替代品
+  selection: Function Calling
+  memory: { readUpTo: 32 }
+  proposed:
+    - docs/llm/app/function_calling.md
+    - docs/interview/llm/agent_interview.md
+    - docs/llm/app/agent_tool_design.md
+    - docs/interview/llm/20260506bytedance.md
+    - docs/llm/intro/llm_keywords.md
+    - docs/llm/app/agent_learning_roadmap.md
+    - docs/interview/llm/README.md
+    - docs/llm/README.md
+    - docs/llm/app/agent_intro.md
+    - docs/llm/intro/llm_learning_roadmap.md
+    - README.md
+    - docs/interview/llm/production_agent_architecture_harness_org_talent.md
+    - docs/llm/news/deepseek-agent-harness-hiring.md
+    - docs/interview/llm/agent_drift_hallucination_interview.md
+    - docs/interview/llm/agent_skill_interview.md
+    - docs/interview/llm/claude_code_deep_dive.md
+    - docs/interview/llm/multi_agent_communication_interview.md
+    - docs/llm/app/agent_evaluation.md
+    - docs/llm/intro/agentic_rag.md
+  expected:
+    - docs/llm/app/function_calling.md
+    - docs/interview/llm/agent_interview.md
+    - docs/llm/app/agent_tool_design.md
+    - docs/llm/intro/llm_keywords.md
+    - docs/llm/app/agent_learning_roadmap.md
+    - docs/llm/app/agent_intro.md
+  mustNotMention: []
+
+- id: wu-structured-output
+  action: where-used
+  doc: docs/llm/app/function_calling.md
+  anchor: 五面试官可能怎么问
+  selection: 结构化输出
+  memory: { readUpTo: 11 }
+  proposed:
+    - docs/llm/app/structured_output.md
+    - docs/llm/app/prompt_engineering.md
+    - docs/llm/app/deployment_options.md
+    - README.md
+    - docs/interview/llm/agent_hallucination_control_interview.md
+    - docs/llm/app/agent_learning_roadmap.md
+    - docs/llm/intro/how_llm_trained.md
+    - docs/llm/intro/llm_learning_roadmap.md
+    - docs/llm/news/deepseek-agent-harness-hiring.md
+    - docs/interview/llm/agent_drift_hallucination_interview.md
+    - docs/interview/llm/finetuning_sft_rlhf_interview.md
+    - docs/interview/llm/graph_engineering_interview.md
+    - docs/interview/llm/multi_agent_harness_interview.md
+    - docs/llm/README.md
+    - docs/llm/app/context_engineering.md
+    - docs/llm/app/finetuning_vs_rag.md
+    - docs/llm/app/model_quantization.md
+    - docs/llm/app/plan_execute_dag.md
+    - docs/llm/app/react_reflection_planning.md
+    - docs/llm/app/stress_testing.md
+    - docs/llm/claude/agent_cli.md
+  expected:
+    - docs/llm/app/structured_output.md
+    - docs/llm/app/prompt_engineering.md
+    - docs/llm/app/deployment_options.md
+    - docs/interview/llm/agent_hallucination_control_interview.md
+    - docs/llm/app/agent_learning_roadmap.md
+    - docs/llm/intro/how_llm_trained.md
+  mustNotMention: []
+
+# Explain here
+
+- id: explain-kv-quant
+  action: explain
+  doc: docs/llm/app/model_quantization.md
+  anchor: 项目里怎么选择量化方案
+  selection: KV Cache量化
+  concept: KV Cache
+  memory: { readUpTo: 52, unclear: [ FP8 ] }
+  notes: The KV Cache example in docs/PLAN.md. M3 judges whether memory is respected.
+  proposed:
+    - docs/llm/app/model_quantization.md
+    - docs/llm/app/kv_cache_paged_attention.md
+  expected:
+    - docs/llm/app/model_quantization.md
+    - docs/llm/app/kv_cache_paged_attention.md
+  mustNotMention: []
+
+- id: explain-prefix-cache
+  action: explain
+  doc: docs/llm/app/kv_cache_paged_attention.md
+  anchor: prefix-cache为什么不是另一个pagedattention
+  selection: Prefix Cache
+  memory: { readUpTo: 51, known: [ PagedAttention ] }
+  proposed:
+    - docs/llm/app/kv_cache_paged_attention.md
+  expected:
+    - docs/llm/app/kv_cache_paged_attention.md
+  mustNotMention: []
+
+- id: explain-hallucination
+  action: explain
+  doc: docs/llm/app/why_rag.md
+  anchor: 1-幻觉问题hallucination
+  selection: 幻觉
+  memory: { readUpTo: 13, language: en }
+  proposed:
+    - docs/llm/app/why_rag.md
+    - docs/interview/llm/agent_hallucination_control_interview.md
+    - docs/interview/llm/agent_drift_hallucination_interview.md
+    - docs/interview/llm/rag_interview.md
+  expected:
+    - docs/llm/app/why_rag.md
+    - docs/interview/llm/agent_hallucination_control_interview.md
+  mustNotMention: []
+
+- id: explain-ttft
+  action: explain
+  doc: docs/llm/app/stress_testing.md
+  anchor: ttfttpot和itl到底在量什么
+  selection: TTFT
+  memory: { readUpTo: 53, known: [ Prefill ] }
+  proposed:
+    - docs/llm/app/stress_testing.md
+    - docs/llm/app/token_cost_latency.md
+  expected:
+    - docs/llm/app/stress_testing.md
+    - docs/llm/app/token_cost_latency.md
+  mustNotMention: []
+
+# Example
+
+- id: example-function-calling
+  action: example
+  doc: docs/llm/app/function_calling.md
+  anchor: 三模型调用工具本质上发生了什么
+  selection: Function Calling
+  memory: { readUpTo: 11 }
+  proposed:
+    - docs/llm/app/function_calling.md
+    - docs/llm/app/mcp_protocol.md
+    - docs/interview/llm/agent_interview.md
+    - docs/llm/app/agent_tool_design.md
+  expected:
+    - docs/llm/app/function_calling.md
+    - docs/llm/app/mcp_protocol.md
+  mustNotMention: []
+
+- id: example-semantic-chunking
+  action: example
+  doc: docs/llm/app/how_to_chunking.md
+  anchor: 五实际项目里怎么选策略
+  selection: 语义切分
+  memory: { readUpTo: 15 }
+  proposed:
+    - docs/llm/app/how_to_chunking.md
+  expected:
+    - docs/llm/app/how_to_chunking.md
+  mustNotMention: []
+
+# Ask
+
+- id: ask-paged-vs-prefix
+  action: ask
+  doc: docs/llm/app/kv_cache_paged_attention.md
+  anchor: prefix-cache为什么不是另一个pagedattention
+  selection: ""
+  question: PagedAttention 和 Prefix Cache 解决的是同一个问题吗？
+  memory: { readUpTo: 51 }
+  proposed:
+    - docs/llm/app/kv_cache_paged_attention.md
+    - docs/llm/app/model_quantization.md
+    - docs/interview/llm/ai_enhanced_development_openspec_superpowers_gstack.md
+    - docs/llm/claude/claude_code_large_codebase.md
+    - docs/llm/claude/claude_prompt_cache.md
+  expected:
+    - docs/llm/app/kv_cache_paged_attention.md
+    - docs/llm/app/model_quantization.md
+    - docs/interview/llm/ai_enhanced_development_openspec_superpowers_gstack.md
+  mustNotMention: []
+
+- id: ask-rag-or-finetune
+  action: ask
+  doc: docs/llm/app/finetuning_vs_rag.md
+  anchor: 什么时候微调什么时候rag选型决策框架
+  selection: ""
+  question: 我们的知识库每周都会更新，应该用 RAG 还是微调？
+  memory: { readUpTo: 60 }
+  proposed:
+    - docs/llm/app/finetuning_vs_rag.md
+    - docs/llm/app/finetuning_interview.md
+    - docs/llm/app/rag_interview_framework.md
+    - docs/llm/app/finetuning_sft_rlhf_dpo.md
+    - docs/llm/app/why_rag.md
+  expected:
+    - docs/llm/app/finetuning_vs_rag.md
+    - docs/llm/app/finetuning_interview.md
+    - docs/llm/app/rag_interview_framework.md
+  mustNotMention: []
+
+- id: ask-mcp-vs-function-calling
+  action: ask
+  doc: docs/llm/app/mcp_protocol.md
+  anchor: 二mcp-不是-function-calling-的替代品
+  selection: ""
+  question: What's the difference between MCP and Function Calling?
+  memory: { readUpTo: 32, language: en }
+  proposed:
+    - docs/llm/app/mcp_protocol.md
+    - docs/interview/llm/agent_interview.md
+    - docs/llm/app/function_calling.md
+    - docs/interview/llm/20260506bytedance.md
+    - docs/llm/intro/llm_keywords.md
+  expected:
+    - docs/llm/app/mcp_protocol.md
+    - docs/interview/llm/agent_interview.md
+    - docs/llm/app/function_calling.md
+  mustNotMention: []
