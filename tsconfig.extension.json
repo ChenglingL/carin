@@ -1,0 +1,10 @@
+{
+  // The Chrome extension: DOM and browser APIs allowed, unlike src/core and src/index.
+  "extends": "./.wxt/tsconfig.json",
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "erasableSyntaxOnly": true
+  },
+  "include": ["src/extension", ".wxt/wxt.d.ts"],
+  "exclude": ["**/*.test.ts"]
+}

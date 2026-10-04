@@ -1,5 +1,10 @@
 node_modules/
 
+# WXT build output and generated types
+.output/
+dist/
+.wxt/
+
 # Downloaded repos, zips and the built index (see CLAUDE.md, "Secrets and data")
 data/
 

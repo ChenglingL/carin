@@ -7,9 +7,10 @@ The full plan is in `docs/PLAN.md`. Read the relevant section before starting a 
 
 ## Current milestone
 
-**M2: extension shell.** Update this line when a milestone's gate passes. (M0 passed on 2026-10-02.
-M1's pipeline works end to end but its gate isn't measured yet: Gemini's free tier allows ~20 requests/day per model.
-The owner asked on 2026-10-03 to build through to a demo first and tune rules and evals afterwards.)
+**M3: memory.** Update this line when a milestone's gate passes. (M0 passed 2026-10-02; M2 passed 2026-10-04:
+the owner selected text on github.com and got an answer in the side panel. M1's pipeline works end to end, but its
+gate isn't measured yet because Gemini's free tier allows ~20 requests/day per model; the owner chose to build
+through to a demo first and tune the rules, expected docs and evals afterwards.)
 
 - M0 Repo index (Node). Gate: doc map is about 15K tokens; the KV Cache entry lists the docs a text search finds.
 - M1 Agent core (Node). Gate: every citation is real; "Where it's used" finds at least 80% of expected docs.
@@ -62,13 +63,14 @@ Keep this list current. Node 24+ runs the `.ts` scripts directly (type stripping
 - `npm run index -- --repo ChenglingL/llm-master` writes `data/index.json` and caches the repo zip per commit in `data/cache/`.
   Options: `--ref <branch>`, `--start <roadmap page>`, `--count-tokens` (exact doc map count from the API; needs `ANTHROPIC_API_KEY` in `.env`).
 - `npm test` runs Vitest. The M0 gate tests (`scripts/index-gate.test.ts`) skip until the index is built.
-- `npm run typecheck` runs `tsc --noEmit` on the whole project, then on `tsconfig.portable.json`,
-  which fails if `src/core/` or `src/index/` use Node or browser APIs.
+- `npm run typecheck` runs `tsc --noEmit` on the whole project, then on `tsconfig.portable.json`
+  (fails if `src/core/` or `src/index/` use Node or browser APIs), then on `tsconfig.extension.json`.
 - `npm run ask -- --case explain-kv-quant` (or `--doc … --select … --action explain|example|where-used|ask`) asks one question.
 - `npm run evals` runs the eval cases and prints a report; `--case <id>`, `--model gemini|sonnet|haiku|<id>`, `--save-baseline`.
   Gemini's free tier: ~5 requests/min and ~20/day per model; the client waits, then falls back across free models.
 - `npm run evals:propose` refreshes each case's `proposed:` docs from a text search.
-- `npm run dev` / `npm run build` build the extension with WXT (from M2)
+- `npm run build` builds the extension into `dist/chrome-mv3/`; load it at chrome://extensions → Developer mode → Load unpacked.
+  `npm run dev` starts WXT with hot reload in a separate Chrome profile.
 
 ## Conventions
 

@@ -20,5 +20,6 @@
     "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true
   },
-  "include": ["src", "scripts", "evals"]
+  "include": ["src", "scripts", "evals"],
+  "exclude": ["src/extension"] // checked by tsconfig.extension.json, with DOM types
 }
